@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        // proxy 名字叫做代理，可以做数据劫持，拦截 get set apply has ...
+
+        /*
+        let obj = { name: 'king' }
+        let proxy = new Proxy(obj, {
+            set(target, property, value) {
+                alert('数据更新了');
+                target[property] = value;
+                //Reflect.set(target,property,value)
+            }
+        });
+        proxy.name = 'gyh';
+        */
+        let obj = { name: 'king', n: { n: 1 } };
+        function set(obj, callback) {
+            let proxy = new Proxy(obj, {
+                set(target, property, value) {
+                    alert(property + '更新了');
+                    target[property] = value;
+                }
+            });
+            callback(proxy);
+        }
+        set(obj, function (obj) {
+            obj.name = 'hello'
+        });
+        set(obj.n, function (obj) {
+            obj.n = 30
+        });
+    </script>
+</body>
+
+</html>

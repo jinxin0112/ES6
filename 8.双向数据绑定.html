@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        let obj = { name: 'king', n: { n: 1 } };
+        function defineProperty(target, key, value, callback) {
+            Object.defineProperty(target, key, {
+                get() {
+                    return value
+                },
+                set(newValue) {
+                    if (value === newValue) { return }
+                    console.log('set');
+                    value = newValue;
+                    callback();
+                }
+            });
+        }
+        function observer(obj, callback) {
+            if (typeof obj !== 'object') { return }
+            for (let k in obj) {
+                defineProperty(obj, k, obj[k], callback);
+                observer(obj[k], callback);
+            }
+        }
+        observer(obj, function () {
+            console.log('bianhuale');
+        });
+    </script>
+</body>
+
+</html>
